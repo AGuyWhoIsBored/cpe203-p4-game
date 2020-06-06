@@ -1,6 +1,18 @@
 
+// java standard library imports
+import java.util.List;
 
-// public class EntityVistaGrande extends EntityBase
-// {
-    
-// }
+// external library imports
+import processing.core.PImage;
+
+public class EntityVistaGrande extends EntityBase
+{
+    // constructor
+    public EntityVistaGrande(
+        String id,
+        Point position,
+        List<PImage> images)
+    {
+        super(id, position, images);
+    }
+}

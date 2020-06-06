@@ -108,6 +108,12 @@ public class Factory
     }
 
     // custom entities
-    
+    public static EntityVistaGrande createVistaGrande(
+        String id,
+        Point position,
+        List<PImage> images)
+    {
+        return new EntityVistaGrande(id, position, images);   
+    }
 
 }

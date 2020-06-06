@@ -111,8 +111,19 @@ public final class VirtualWorld extends PApplet
 
         // for testing, just spawn all of our new entities in a line at the clickedTile
 
-        // update background at clicked tile
+        // update background at clicked tile (we would want to do this in a radius)
         world.setBackground(clickedTile, new Background("background_CP", imageStore.getImageList("background_CP")));
+
+        IEntity vgTest = Factory.createVistaGrande("vistagrande", new Point(clickedTile.getX() + 1, clickedTile.getY()), imageStore.getImageList("vistagrande"));
+        /* jeff entity */ 
+        /* CPstudent entity */ 
+
+        // try to spawn entities in
+        try 
+        {
+            world.tryAddEntity(vgTest);
+        } 
+        catch (Exception e) { System.out.println(e.getMessage()); } // simply catch and don't do anything if pos is occupiped
     }
 
     // main game entry point
