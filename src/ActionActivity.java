@@ -6,7 +6,7 @@
 
 public class ActionActivity implements IAction
 {
-    //
+
     // instance variables
     private IEntityActive entity;
     private WorldModel world;
