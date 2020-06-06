@@ -104,6 +104,17 @@ public final class VirtualWorld extends PApplet
         }
     }
 
+    public void mousePressed() { 
+
+    Point pressed = mouseToPoint(mouseX, mouseY);
+
+    //add code here to do/create what you need to around or at that point
+
+    }
+    //private Point mouseToPoint(int x, int y) {
+      //  return new Point(x / TILE_WIDTH, y / TILE_HEIGHT);
+   // }
+
     // main game entry point
     public static void main(String[] args) 
     {
