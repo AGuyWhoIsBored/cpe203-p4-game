@@ -39,6 +39,7 @@ public class EntityCPStudent extends EntityMovableBase{
 
     protected boolean _moveHelper(WorldModel world, IEntity target, EventScheduler scheduler)
     {
+        //fix later
         world.removeEntity(target);
         scheduler.unscheduleAllEvents(target);
         return true;
