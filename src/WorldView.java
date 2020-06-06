@@ -36,6 +36,9 @@ public final class WorldView
         this.viewport = new Viewport(numRows, numCols);
     }
 
+    // accessors
+    public Viewport getViewport() { return viewport; }
+
     // public functional methods
     public void drawViewport() 
     {

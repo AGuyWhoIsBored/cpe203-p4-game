@@ -66,8 +66,6 @@ public final class Functions
     private static final int VEIN_ROW = 3;
     private static final int VEIN_ACTION_PERIOD = 4;
 
-    // all methoids that are still here were explicitly marked as not to be moved until later projects
-
     // public functional methods
 
     public static void load(Scanner in, WorldModel world, ImageStore imageStore)
@@ -77,19 +75,10 @@ public final class Functions
         {
             try 
             {                
-                if (!processLine(in.nextLine(), world, imageStore)) 
-                {
-                    System.err.println(String.format("invalid entry on line %d", lineNumber));
-                }
+                if (!processLine(in.nextLine(), world, imageStore)) { System.err.println(String.format("invalid entry on line %d", lineNumber)); }
             }
-            catch (NumberFormatException e) 
-            {
-                System.err.println(String.format("invalid entry on line %d", lineNumber));
-            }
-            catch (IllegalArgumentException e) 
-            {
-                System.err.println(String.format("issue on line %d: %s", lineNumber, e.getMessage()));
-            }
+            catch (NumberFormatException e) { System.err.println(String.format("invalid entry on line %d", lineNumber)); }
+            catch (IllegalArgumentException e) { System.err.println(String.format("issue on line %d: %s", lineNumber, e.getMessage())); }
             lineNumber++;
         }
     }
@@ -99,20 +88,13 @@ public final class Functions
         int lineNumber = 0;
         while (in.hasNextLine()) 
         {
-            try 
-            {
-                processImageLine(imageStore.getImages(), in.nextLine(), screen);
-            }
-            catch (NumberFormatException e) 
-            {
-                System.out.println(String.format("Image format error on line %d", lineNumber));
-            }
+            try { processImageLine(imageStore.getImages(), in.nextLine(), screen); }
+            catch (NumberFormatException e) { System.out.println(String.format("Image format error on line %d", lineNumber)); }
             lineNumber++;
         }
     }
 
     // private functional methods
-
     private static void processImageLine(Map<String, List<PImage>> images, String line, PApplet screen)
     {
         String[] attrs = line.split("\\s");
@@ -167,6 +149,7 @@ public final class Functions
         img.updatePixels();
     }
 
+    // reading from world.sav on program load
     private static boolean processLine(String line, WorldModel world, ImageStore imageStore)
     {
         String[] properties = line.split("\\s");

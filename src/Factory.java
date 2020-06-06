@@ -106,4 +106,8 @@ public class Factory
     {
         return new EntityVein(id, position, images, actionPeriod);
     }
+
+    // custom entities
+    
+
 }

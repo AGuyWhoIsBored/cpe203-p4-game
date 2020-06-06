@@ -104,16 +104,16 @@ public final class VirtualWorld extends PApplet
         }
     }
 
-    public void mousePressed() { 
+    // Processing fires this event whenever mouse is pressed on screen
+    public void mousePressed()
+    {
+        Point clickedTile = new Point((mouseX / TILE_WIDTH) + view.getViewport().getCol(), (mouseY / TILE_HEIGHT) + view.getViewport().getRow());
 
-    Point pressed = mouseToPoint(mouseX, mouseY);
+        // for testing, just spawn all of our new entities in a line at the clickedTile
 
-    //add code here to do/create what you need to around or at that point
-
+        // update background at clicked tile
+        world.setBackground(clickedTile, new Background("background_CP", imageStore.getImageList("background_CP")));
     }
-    //private Point mouseToPoint(int x, int y) {
-      //  return new Point(x / TILE_WIDTH, y / TILE_HEIGHT);
-   // }
 
     // main game entry point
     public static void main(String[] args) 

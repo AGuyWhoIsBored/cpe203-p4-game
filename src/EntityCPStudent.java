@@ -3,7 +3,8 @@ import processing.core.PImage;
 import java.util.List;
 import java.util.Optional;
 
-public class EntityCPStudent extends EntityMovableBase{
+public class EntityCPStudent extends EntityMovableBase
+{
     public EntityCPStudent(
             String id,
             Point position,
