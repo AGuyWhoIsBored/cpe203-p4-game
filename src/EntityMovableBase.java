@@ -87,6 +87,25 @@ public abstract class EntityMovableBase extends EntityActiveAnimatedBase impleme
                 afterPeriod[1]);
         }
     }
+
+    private void transformCPStudent(
+            WorldModel world,
+            EventScheduler scheduler,
+            ImageStore imageStore)
+    {
+        EntityCPStudent cpstudent = Factory.createEntityCPStudent(
+                super.getId(),
+                super.getPosition(),
+                super.getActionPeriod(),
+                super.getAnimationPeriod(),
+                super.getImages());
+
+        world.removeEntity(this);
+        scheduler.unscheduleAllEvents(this);
+
+        world.addEntity(cpstudent);
+        super.scheduleActions(scheduler, world, imageStore);
+    }
     
     // helper abstract methods
     protected abstract boolean _moveHelper(WorldModel world, IEntity target, EventScheduler scheduler);

@@ -91,6 +91,16 @@ public class Factory
         return new EntityOreBlob(id, position, images, actionPeriod, animationPeriod);
     }
 
+    public static EntityCPStudent createEntityCPStudent(
+            String id,
+            Point position,
+            int actionPeriod,
+            int animationPeriod,
+            List<PImage> images)
+    {
+        return new EntityCPStudent(id, position, images, actionPeriod, animationPeriod);
+    }
+
     public static EntityQuake createEntityQuake(
         Point position, 
         List<PImage> images)
@@ -98,7 +108,7 @@ public class Factory
         return new EntityQuake(QUAKE_ID, position, images, QUAKE_ACTION_PERIOD, QUAKE_ANIMATION_PERIOD);
     }
 
-    public static EntityVein createVein(
+    public static EntityVein createEntityVein(
         String id, 
         Point position, 
         int actionPeriod, 
@@ -109,7 +119,7 @@ public class Factory
 
     // custom entities
     // consider baking in id and imagelookup?
-    public static EntityVistaGrande createVistaGrande(
+    public static EntityVistaGrande createEntityVistaGrande(
         String id,
         Point position,
         List<PImage> images)

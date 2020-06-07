@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public class EntityCPStudent extends EntityMovableBase
 {
+    private static final String CP_KEY = "cpstudent";
     public EntityCPStudent(
             String id,
             Point position,
@@ -15,25 +16,35 @@ public class EntityCPStudent extends EntityMovableBase
         super(id, position, images, actionPeriod, animationPeriod);
     }
 
-    protected long[] _executeActivityHelper(WorldModel world, ImageStore imaegStore, EventScheduler scheduler)
+    protected long[] _executeActivityHelper(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         // debugging
         //System.out.println(System.currentTimeMillis() + " CPstudent activity executed");
 
-        Optional<IEntity> testTarget = world.findNearest(super.getPosition(), EntityMinerNotFull.class);
-
+        Optional<IEntity> testTarget = world.findNearest(super.getPosition(), EntityOreBlob.class);
+        long nextPeriod = super.getActionPeriod();
         if (testTarget.isPresent())
         {
-            move(world, testTarget.get(), scheduler);
-            return new long[] { 1, super.getActionPeriod() };
+            Point tgtPos = testTarget.get().getPosition();
+
+            if (move(world, testTarget.get(), scheduler))
+            {
+                EntityCPStudent cpStudent = Factory.createCPStudent("cpstudent", tgtPos, imageStore.getImageList(CP_KEY), 500, 100);
+
+                world.addEntity(cpStudent);
+                nextPeriod += super.getActionPeriod();
+                cpStudent.scheduleActions(scheduler, world, imageStore);
+            }
         }
-        else { return new long[] { 0, 0 } ; }
+        return new long[] { 1, nextPeriod };
     }
 
     protected boolean _moveHelper(WorldModel world, IEntity target, EventScheduler scheduler)
     {
         // debugging
         //System.out.println(System.currentTimeMillis() + " CPstudent move helper executed");
+        world.removeEntity(target);
+        scheduler.unscheduleAllEvents(target);
 
         return true;
     }

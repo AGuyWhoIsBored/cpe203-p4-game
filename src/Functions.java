@@ -40,6 +40,14 @@ public final class Functions
     private static final int MINER_ACTION_PERIOD = 5;
     private static final int MINER_ANIMATION_PERIOD = 6;
 
+    private static final String STUDENT_KEY = "cpstudent";
+    private static final int STUDENT_NUM_PROPERTIES = 6;
+    private static final int STUDENT_ID = 1;
+    private static final int STUDENT_COL = 2;
+    private static final int STUDENT_ROW = 3;
+    private static final int STUDENT_ACTION_PERIOD = 4;
+    private static final int STUDENT_ANIMATION_PERIOD = 5;
+
     private static final String OBSTACLE_KEY = "obstacle";
     private static final int OBSTACLE_NUM_PROPERTIES = 4;
     private static final int OBSTACLE_ID = 1;
@@ -264,7 +272,7 @@ public final class Functions
             Point pt = new Point(
                 Integer.parseInt(properties[VEIN_COL]),
                 Integer.parseInt(properties[VEIN_ROW]));
-            IEntity entity = Factory.createVein(
+            IEntity entity = Factory.createEntityVein(
                 properties[VEIN_ID], 
                 pt,
                 Integer.parseInt(properties[VEIN_ACTION_PERIOD]),

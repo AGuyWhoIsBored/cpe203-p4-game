@@ -2,6 +2,7 @@
 // java standard library imports
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 // external library imports
 import processing.core.PImage;
@@ -9,6 +10,9 @@ import processing.core.PImage;
 public class EntityJeff extends EntityMovableBase
 {
     // constructor
+    private static final String VG_KEY = "vistagrande";
+    private int vgCount;
+    private Random rand = new Random();
     public EntityJeff(
         String id,
         Point position,
@@ -17,19 +21,32 @@ public class EntityJeff extends EntityMovableBase
         int animationPeriod)
     {
         super(id, position, images, actionPeriod, animationPeriod);
+        vgCount = 0;
     }
 
-    protected long[] _executeActivityHelper(WorldModel world, ImageStore imaegStore, EventScheduler scheduler)
+    protected long[] _executeActivityHelper(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
         // debugging
         //System.out.println(System.currentTimeMillis() + " CPstudent activity executed");
 
         Optional<IEntity> testTarget = world.findNearest(super.getPosition(), EntityBlacksmith.class);
-
+        long nextPeriod = super.getActionPeriod();
         if (testTarget.isPresent())
         {
             move(world, testTarget.get(), scheduler);
-            return new long[] { 1, super.getActionPeriod() };
+            EntityVistaGrande vg = Factory.createEntityVistaGrande("vistagrande", new Point(super.getPosition().getX()-rand.nextInt(5), super.getPosition().getY()-rand.nextInt(5)), imageStore.getImageList(VG_KEY));
+            vgCount++;
+            try
+            {
+                world.tryAddEntity(vg);
+            }
+            catch (Exception e) { System.out.println(e.getMessage()); }
+            nextPeriod += super.getActionPeriod();
+            if(vgCount>2){
+                world.removeEntity(this);
+                scheduler.unscheduleAllEvents(this);
+            }
+            return new long[] { 1, nextPeriod };
         }
         else { return new long[] { 0, 0 } ; }
     }

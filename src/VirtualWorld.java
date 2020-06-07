@@ -115,7 +115,7 @@ public final class VirtualWorld extends PApplet
         world.setBackground(clickedTile, new Background("background_CP", imageStore.getImageList("background_CP")));
 
         // standard animationPeriod seems to be 100ms
-        EntityVistaGrande vgTest = Factory.createVistaGrande("vistagrande", new Point(clickedTile.getX() + 1, clickedTile.getY()), imageStore.getImageList("vistagrande"));
+        EntityVistaGrande vgTest = Factory.createEntityVistaGrande("vistagrande", new Point(clickedTile.getX() + 1, clickedTile.getY()), imageStore.getImageList("vistagrande"));
         EntityJeff jeffTest = Factory.createJeff("jeff", new Point(clickedTile.getX() - 1, clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
         EntityCPStudent cpStudentTest = Factory.createCPStudent("cpstudent", new Point(clickedTile.getX(), clickedTile.getY() + 1), imageStore.getImageList("cpstudent"), 500, 100);
         
