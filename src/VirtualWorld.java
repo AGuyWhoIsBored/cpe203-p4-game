@@ -7,6 +7,7 @@
  // java standard library imports
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Random;
 import java.util.Scanner;
 
 // external library imports
@@ -51,6 +52,7 @@ public final class VirtualWorld extends PApplet
     private WorldView view;
     private EventScheduler scheduler;
     private long nextTime;
+    private Random rand = new Random();
 
     // PApplet setup methods
     public void settings() { size(VIEW_WIDTH, VIEW_HEIGHT); }
@@ -112,7 +114,14 @@ public final class VirtualWorld extends PApplet
         // for testing, just spawn all of our new entities in a line at the clickedTile
 
         // update background at clicked tile (we would want to do this in a radius)
-        world.setBackground(clickedTile, new Background("background_CP", imageStore.getImageList("background_CP")));
+        for (int i = -2; i<3; i++){
+            for (int j = -2; j<3; j++){
+                if(rand.nextInt(2)>0) {
+                    world.setBackground(new Point(clickedTile.getX() + i, clickedTile.getY() + j), new Background("background_CP", imageStore.getImageList("background_CP")));
+                }
+            }
+        }
+
 
         // standard animationPeriod seems to be 100ms
         EntityVistaGrande vgTest = Factory.createEntityVistaGrande("vistagrande", new Point(clickedTile.getX() + 1, clickedTile.getY()), imageStore.getImageList("vistagrande"));
