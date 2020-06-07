@@ -114,14 +114,21 @@ public final class VirtualWorld extends PApplet
         // update background at clicked tile (we would want to do this in a radius)
         world.setBackground(clickedTile, new Background("background_CP", imageStore.getImageList("background_CP")));
 
-        IEntity vgTest = Factory.createVistaGrande("vistagrande", new Point(clickedTile.getX() + 1, clickedTile.getY()), imageStore.getImageList("vistagrande"));
-        /* jeff entity */ 
-        /* CPstudent entity */ 
+        // standard animationPeriod seems to be 100ms
+        EntityVistaGrande vgTest = Factory.createVistaGrande("vistagrande", new Point(clickedTile.getX() + 1, clickedTile.getY()), imageStore.getImageList("vistagrande"));
+        EntityJeff jeffTest = Factory.createJeff("jeff", new Point(clickedTile.getX() - 1, clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
+        EntityCPStudent cpStudentTest = Factory.createCPStudent("cpstudent", new Point(clickedTile.getX(), clickedTile.getY() + 1), imageStore.getImageList("cpstudent"), 500, 100);
+        
+        // have to register actions with eventScheduler in order to enable actions & animations
+        jeffTest.scheduleActions(scheduler, world, imageStore);
+        cpStudentTest.scheduleActions(scheduler, world, imageStore);
 
         // try to spawn entities in
         try 
         {
             world.tryAddEntity(vgTest);
+            world.tryAddEntity(jeffTest);
+            world.tryAddEntity(cpStudentTest);
         } 
         catch (Exception e) { System.out.println(e.getMessage()); } // simply catch and don't do anything if pos is occupiped
     }

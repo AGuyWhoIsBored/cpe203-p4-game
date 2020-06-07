@@ -108,6 +108,7 @@ public class Factory
     }
 
     // custom entities
+    // consider baking in id and imagelookup?
     public static EntityVistaGrande createVistaGrande(
         String id,
         Point position,
@@ -116,4 +117,23 @@ public class Factory
         return new EntityVistaGrande(id, position, images);   
     }
 
+    public static EntityJeff createJeff(
+        String id,
+        Point position,
+        List<PImage> images,
+        int actionPeriod,
+        int animationPeriod)
+    {
+        return new EntityJeff(id, position, images, actionPeriod, animationPeriod);
+    }
+
+    public static EntityCPStudent createCPStudent(
+        String id,
+        Point position, 
+        List<PImage> images,
+        int actionPeriod,
+        int animationPeriod)
+    {
+        return new EntityCPStudent(id, position, images, actionPeriod, animationPeriod);   
+    }
 }

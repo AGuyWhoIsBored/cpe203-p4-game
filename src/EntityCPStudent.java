@@ -15,41 +15,34 @@ public class EntityCPStudent extends EntityMovableBase
         super(id, position, images, actionPeriod, animationPeriod);
     }
 
-    // implemented abstract methods to complete parent implementation of these methods
-    protected long[] _executeActivityHelper(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
+    protected long[] _executeActivityHelper(WorldModel world, ImageStore imaegStore, EventScheduler scheduler)
     {
-        Optional<IEntity> studentTarget = world.findNearest(super.getPosition(), EntityOreBlob.class);
-        long nextPeriod = super.getActionPeriod();
+        // debugging
+        //System.out.println(System.currentTimeMillis() + " CPstudent activity executed");
 
-        if (studentTarget.isPresent())
+        Optional<IEntity> testTarget = world.findNearest(super.getPosition(), EntityMinerNotFull.class);
+
+        if (testTarget.isPresent())
         {
-            Point tgtPos = studentTarget.get().getPosition();
-
-            if (move(world, studentTarget.get(), scheduler))
-            {
-       //         EntityQuake quake = Factory.createEntityQuake(tgtPos, imageStore.getImageList(QUAKE_KEY));
-
-         //       world.addEntity(quake);
-           //     nextPeriod += super.getActionPeriod();
-             //   quake.scheduleActions(scheduler, world, imageStore);
-            }
+            move(world, testTarget.get(), scheduler);
+            return new long[] { 1, super.getActionPeriod() };
         }
-
-        return new long[] { 1, nextPeriod };
+        else { return new long[] { 0, 0 } ; }
     }
 
     protected boolean _moveHelper(WorldModel world, IEntity target, EventScheduler scheduler)
     {
-        //fix later
-        world.removeEntity(target);
-        scheduler.unscheduleAllEvents(target);
+        // debugging
+        //System.out.println(System.currentTimeMillis() + " CPstudent move helper executed");
+
         return true;
     }
 
     protected boolean _nextPositionHelper(WorldModel world, Point newPos)
     {
-        Optional<IEntity> occupant = world.getOccupant(newPos);
-        return (occupant.isPresent()
-                && !(occupant.get().getClass() == EntityOre.class));
+        // debugging
+        //System.out.println(System.currentTimeMillis() + " CPstudent next position helper executed");
+
+        return world.isOccupied(newPos);
     }
 }
