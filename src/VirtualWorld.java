@@ -133,7 +133,7 @@ public final class VirtualWorld extends PApplet
             // have to register actions with eventScheduler in order to enable actions & animations
             // only do if we're able to successfully add entities in - or else we'll see weird behavior!
             jeffTest.scheduleActions(scheduler, world, imageStore);
-            cpStudentTest.scheduleActions(scheduler, world, imageStore);
+           // cpStudentTest.scheduleActions(scheduler, world, imageStore);
 
             // transform all miners in 7x7 radius to CPstudents
             for (int i = -3; i < 4; i++)
