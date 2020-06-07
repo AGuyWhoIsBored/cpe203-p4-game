@@ -6,6 +6,8 @@ import java.util.Optional;
 public class EntityCPStudent extends EntityMovableBase
 {
     private static final String CP_KEY = "cpstudent";
+    private boolean gotAPlus = false;
+
     public EntityCPStudent(
             String id,
             Point position,
@@ -18,42 +20,59 @@ public class EntityCPStudent extends EntityMovableBase
 
     protected long[] _executeActivityHelper(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        // debugging
-        //System.out.println(System.currentTimeMillis() + " CPstudent activity executed");
-
         Optional<IEntity> testTarget = world.findNearest(super.getPosition(), EntityOreBlob.class);
         long nextPeriod = super.getActionPeriod();
-        if (testTarget.isPresent())
+
+        // if we haven't given an ore blob an A+, do so
+        if (!gotAPlus)
         {
-            Point tgtPos = testTarget.get().getPosition();
-
-            if (move(world, testTarget.get(), scheduler))
+            // debugging
+            //boolean moved = false;
+            //if (testTarget.isPresent() && move(world, testTarget.get(), scheduler)) { moved = true; }
+            //System.out.println(testTarget.isPresent() + " " + moved + " " + gotAPlus);
+            //if (testTarget.isPresent() && moved && !gotAPlus)
+            if (testTarget.isPresent() && move(world, testTarget.get(), scheduler) && !gotAPlus)
             {
-                EntityCPStudent cpStudent = Factory.createCPStudent("cpstudent", tgtPos, imageStore.getImageList(CP_KEY), 500, 100);
-
-                world.addEntity(cpStudent);
-                nextPeriod += super.getActionPeriod();
-                cpStudent.scheduleActions(scheduler, world, imageStore);
+                Point tgtPos = testTarget.get().getPosition(); // conserve position before entity is deleted
+    
+                world.removeEntity(testTarget.get());
+                scheduler.unscheduleAllEvents(testTarget.get());
+    
+                EntityAPlus aPlus = Factory.createAPlus("aplus", tgtPos, imageStore.getImageList("aplus"));
+                world.addEntity(aPlus);
+                gotAPlus = true;
+    
+                System.out.println("remove 1 " + gotAPlus);
+                return new long[] { 1, nextPeriod + super.getActionPeriod() };
+            }
+            else
+            {
+                return new long[] { 1, nextPeriod + super.getActionPeriod() }; 
             }
         }
-        return new long[] { 1, nextPeriod };
+        // if we have, go to blacksmith and despawn
+        else 
+        {
+            testTarget = world.findNearest(super.getPosition(), EntityBlacksmith.class);
+            
+            if (testTarget.isPresent() && move(world, testTarget.get(), scheduler))
+            {
+                world.removeEntity(this);
+                scheduler.unscheduleAllEvents(this);
+
+                return new long[] { 0, 0 };
+            }
+            else { return new long[] { 1, nextPeriod + super.getActionPeriod() }; }
+        }
     }
 
     protected boolean _moveHelper(WorldModel world, IEntity target, EventScheduler scheduler)
     {
-        // debugging
-        //System.out.println(System.currentTimeMillis() + " CPstudent move helper executed");
-        world.removeEntity(target);
-        scheduler.unscheduleAllEvents(target);
-
         return true;
     }
 
     protected boolean _nextPositionHelper(WorldModel world, Point newPos)
     {
-        // debugging
-        //System.out.println(System.currentTimeMillis() + " CPstudent next position helper executed");
-
         return world.isOccupied(newPos);
     }
 }

@@ -146,4 +146,12 @@ public class Factory
     {
         return new EntityCPStudent(id, position, images, actionPeriod, animationPeriod);   
     }
+
+    public static EntityAPlus createAPlus(
+        String id,
+        Point position,
+        List<PImage> images)
+    {
+        return new EntityAPlus(id, position, images);
+    }
 }

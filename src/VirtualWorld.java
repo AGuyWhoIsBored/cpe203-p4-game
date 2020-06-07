@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Optional;
 
 // external library imports
 import processing.core.PApplet;
@@ -111,35 +112,52 @@ public final class VirtualWorld extends PApplet
     {
         Point clickedTile = new Point((mouseX / TILE_WIDTH) + view.getViewport().getCol(), (mouseY / TILE_HEIGHT) + view.getViewport().getRow());
 
-        // for testing, just spawn all of our new entities in a line at the clickedTile
-
         // update background at clicked tile (we would want to do this in a radius)
-        for (int i = -2; i<3; i++){
-            for (int j = -2; j<3; j++){
+        for (int i = -1; i<2; i++){
+            for (int j = -1; j<2; j++){
                 if(rand.nextInt(2)>0) {
                     world.setBackground(new Point(clickedTile.getX() + i, clickedTile.getY() + j), new Background("background_CP", imageStore.getImageList("background_CP")));
                 }
             }
         }
 
-
         // standard animationPeriod seems to be 100ms
-        EntityVistaGrande vgTest = Factory.createEntityVistaGrande("vistagrande", new Point(clickedTile.getX() + 1, clickedTile.getY()), imageStore.getImageList("vistagrande"));
         EntityJeff jeffTest = Factory.createJeff("jeff", new Point(clickedTile.getX() - 1, clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
         EntityCPStudent cpStudentTest = Factory.createCPStudent("cpstudent", new Point(clickedTile.getX(), clickedTile.getY() + 1), imageStore.getImageList("cpstudent"), 500, 100);
-        
-        // have to register actions with eventScheduler in order to enable actions & animations
-        jeffTest.scheduleActions(scheduler, world, imageStore);
-        cpStudentTest.scheduleActions(scheduler, world, imageStore);
 
         // try to spawn entities in
         try 
         {
-            world.tryAddEntity(vgTest);
             world.tryAddEntity(jeffTest);
-            world.tryAddEntity(cpStudentTest);
+
+            // have to register actions with eventScheduler in order to enable actions & animations
+            // only do if we're able to successfully add entities in - or else we'll see weird behavior!
+            jeffTest.scheduleActions(scheduler, world, imageStore);
+            cpStudentTest.scheduleActions(scheduler, world, imageStore);
+
+            // transform all miners in 7x7 radius to CPstudents
+            for (int i = -3; i < 4; i++)
+            {
+                for (int j = -3; j < 4; j++)
+                {
+                    Point p = new Point(clickedTile.getX() + i, clickedTile.getY() + j);
+                    Optional<IEntity> e = world.getOccupant(p);
+                    if (e.isPresent() && (e.get().getClass() == EntityMinerNotFull.class || e.get().getClass() == EntityMinerFull.class))
+                    {
+                        // remove miner
+                        world.removeEntity(e.get());
+                        scheduler.unscheduleAllEvents(e.get());
+
+                        // add CPstudent
+                        EntityCPStudent cpStudent = Factory.createCPStudent("cpstudent", p, imageStore.getImageList("cpstudent"), 500, 100);
+                        world.addEntity(cpStudent);
+                        cpStudent.scheduleActions(scheduler, world, imageStore);
+                    }
+                }
+            }
+
         } 
-        catch (Exception e) { System.out.println(e.getMessage()); } // simply catch and don't do anything if pos is occupiped
+    catch (Exception e) { /* System.out.println(e.getMessage()); */ } // simply catch and don't do anything if pos is occupiped
     }
 
     // main game entry point
