@@ -27,44 +27,36 @@ public class EntityJeff extends EntityMovableBase
 
     protected long[] _executeActivityHelper(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        // debugging
-        //System.out.println(System.currentTimeMillis() + " CPstudent activity executed");
-
         Optional<IEntity> testTarget = world.findNearest(super.getPosition(), EntityBlacksmith.class);
         long nextPeriod = super.getActionPeriod();
         if (testTarget.isPresent())
         {
-            move(world, testTarget.get(), scheduler);
-            EntityVistaGrande vg = Factory.createEntityVistaGrande("vistagrande", new Point(super.getPosition().getX()-rand.nextInt(5), super.getPosition().getY()-rand.nextInt(5)), imageStore.getImageList(VG_KEY));
-            vgCount++;
-            try
+            // counterintuitive - returns TRUE if we are adjacent to target!
+            if (!move(world, testTarget.get(), scheduler))
             {
-                world.tryAddEntity(vg);
+                EntityVistaGrande vg = Factory.createEntityVistaGrande("vistagrande", new Point(super.getPosition().getX() + (rand.nextInt(5) - 3), super.getPosition().getY() + (rand.nextInt(5) - 3)), imageStore.getImageList(VG_KEY));
+                try
+                {
+                    if (vgCount < MAX_VG) 
+                    { 
+                        world.tryAddEntity(vg); 
+                        vgCount++; // only increment if we are able to successfully add in vg
+                    } 
+                }
+                catch (Exception e) { } // do nothing
+                nextPeriod += super.getActionPeriod();
             }
-            catch (Exception e) { System.out.println(e.getMessage()); }
-            nextPeriod += super.getActionPeriod();
-            if(vgCount>MAX_VG){
+            else
+            {
+                // despawn jeff once he reaches blacksmith
                 world.removeEntity(this);
                 scheduler.unscheduleAllEvents(this);
             }
             return new long[] { 1, nextPeriod };
         }
-        else { return new long[] { 0, 0 } ; }
+        else { return new long[] { 0, 0 }; }
     }
 
-    protected boolean _moveHelper(WorldModel world, IEntity target, EventScheduler scheduler)
-    {
-        // debugging
-        //System.out.println(System.currentTimeMillis() + " CPstudent move helper executed");
-
-        return true;
-    }
-
-    protected boolean _nextPositionHelper(WorldModel world, Point newPos)
-    {
-        // debugging
-        //System.out.println(System.currentTimeMillis() + " CPstudent next position helper executed");
-
-        return world.isOccupied(newPos);
-    }
+    protected boolean _moveHelper(WorldModel world, IEntity target, EventScheduler scheduler) { return true; }
+    protected boolean _nextPositionHelper(WorldModel world, Point newPos) { return world.isOccupied(newPos); }
 }

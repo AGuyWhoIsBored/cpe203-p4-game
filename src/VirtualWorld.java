@@ -123,7 +123,6 @@ public final class VirtualWorld extends PApplet
 
         // standard animationPeriod seems to be 100ms
         EntityJeff jeffTest = Factory.createJeff("jeff", new Point(clickedTile.getX(), clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
-        EntityCPStudent cpStudentTest = Factory.createCPStudent("cpstudent", new Point(clickedTile.getX(), clickedTile.getY() + 1), imageStore.getImageList("cpstudent"), 500, 100);
 
         // try to spawn entities in
         try 
@@ -133,7 +132,6 @@ public final class VirtualWorld extends PApplet
             // have to register actions with eventScheduler in order to enable actions & animations
             // only do if we're able to successfully add entities in - or else we'll see weird behavior!
             jeffTest.scheduleActions(scheduler, world, imageStore);
-           // cpStudentTest.scheduleActions(scheduler, world, imageStore);
 
             // transform all miners in 7x7 radius to CPstudents
             for (int i = -3; i < 4; i++)
@@ -157,7 +155,7 @@ public final class VirtualWorld extends PApplet
             }
 
         } 
-    catch (Exception e) { /* System.out.println(e.getMessage()); */ } // simply catch and don't do anything if pos is occupiped
+    catch (Exception e) { } // simply catch and don't do anything if pos is occupiped
     }
 
     // main game entry point
