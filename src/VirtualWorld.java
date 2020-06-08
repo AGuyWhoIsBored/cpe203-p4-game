@@ -122,7 +122,7 @@ public final class VirtualWorld extends PApplet
         }
 
         // standard animationPeriod seems to be 100ms
-        EntityJeff jeffTest = Factory.createJeff("jeff", new Point(clickedTile.getX() - 1, clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
+        EntityJeff jeffTest = Factory.createJeff("jeff", new Point(clickedTile.getX(), clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
         EntityCPStudent cpStudentTest = Factory.createCPStudent("cpstudent", new Point(clickedTile.getX(), clickedTile.getY() + 1), imageStore.getImageList("cpstudent"), 500, 100);
 
         // try to spawn entities in
