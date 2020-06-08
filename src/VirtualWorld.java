@@ -124,15 +124,6 @@ public final class VirtualWorld extends PApplet
         // try to spawn entities in
         try 
         {
-
-            EntityJeff jeff = Factory.createJeff("jeff", new Point(clickedTile.getX(), clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
-            world.tryAddEntity(jeff);
-
-            // have to register actions with eventScheduler in order to enable actions & animations
-            // only do if we're able to successfully add entities in - or else we'll see weird behavior!
-            jeff.scheduleActions(scheduler, world, imageStore);
-
-            // transform all miners in 7x7 square to CPstudents
             for (int i = -3; i < 4; i++)
             {
                 for (int j = -3; j < 4; j++)
@@ -153,6 +144,15 @@ public final class VirtualWorld extends PApplet
                     }
                 }
             }
+            EntityJeff jeff = Factory.createJeff("jeff", new Point(clickedTile.getX(), clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
+            world.tryAddEntity(jeff);
+
+            // have to register actions with eventScheduler in order to enable actions & animations
+            // only do if we're able to successfully add entities in - or else we'll see weird behavior!
+            jeff.scheduleActions(scheduler, world, imageStore);
+
+            // transform all miners in 7x7 square to CPstudents
+
 
         } 
     catch (Exception e) { } // simply catch and don't do anything if pos is occupiped
