@@ -1,3 +1,8 @@
+/* Quarter-Long Virtual World Project Extended - EntityJeff Class
+ * Names: Duncan Applegarth, William Terlinden
+ * Instructor: Kirsten Mork
+ * Section: CPE203-03
+ */
 
 // java standard library imports
 import java.util.List;
@@ -9,10 +14,14 @@ import processing.core.PImage;
 
 public class EntityJeff extends EntityMovableBase
 {
-    // constructor
+    // static variables
     private static final String VG_KEY = "vistagrande";
     private static final int MAX_VG = 4;
+    
+    // instance variables
     private int vgCount;
+
+    // constructor
     private Random rand = new Random();
     public EntityJeff(
         String id,
@@ -34,7 +43,7 @@ public class EntityJeff extends EntityMovableBase
             // counterintuitive - returns TRUE if we are adjacent to target!
             if (!move(world, testTarget.get(), scheduler))
             {
-                EntityVistaGrande vg = Factory.createEntityVistaGrande("vistagrande", new Point(super.getPosition().getX() + (rand.nextInt(5) - 3), super.getPosition().getY() + (rand.nextInt(5) - 3)), imageStore.getImageList(VG_KEY));
+                EntityObstacle vg = Factory.createEntityObstacle("vistagrande", new Point(super.getPosition().getX() + (rand.nextInt(5) - 3), super.getPosition().getY() + (rand.nextInt(5) - 3)), imageStore.getImageList(VG_KEY));
                 try
                 {
                     if (vgCount < MAX_VG) 
