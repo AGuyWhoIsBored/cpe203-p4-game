@@ -112,7 +112,7 @@ public final class VirtualWorld extends PApplet
     {
         Point clickedTile = new Point((mouseX / TILE_WIDTH) + view.getViewport().getCol(), (mouseY / TILE_HEIGHT) + view.getViewport().getRow());
 
-        // update background at clicked tile (we would want to do this in a radius)
+        // update background at clicked tile randomly in 3x3 square (centered at mouseclick)
         for (int i = -1; i<2; i++){
             for (int j = -1; j<2; j++){
                 if(rand.nextInt(2)>0) {
@@ -121,19 +121,18 @@ public final class VirtualWorld extends PApplet
             }
         }
 
-        // standard animationPeriod seems to be 100ms
-        EntityJeff jeffTest = Factory.createJeff("jeff", new Point(clickedTile.getX(), clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
-
         // try to spawn entities in
         try 
         {
-            world.tryAddEntity(jeffTest);
+
+            EntityJeff jeff = Factory.createJeff("jeff", new Point(clickedTile.getX(), clickedTile.getY()), imageStore.getImageList("jeff"), 850, 0);
+            world.tryAddEntity(jeff);
 
             // have to register actions with eventScheduler in order to enable actions & animations
             // only do if we're able to successfully add entities in - or else we'll see weird behavior!
-            jeffTest.scheduleActions(scheduler, world, imageStore);
+            jeff.scheduleActions(scheduler, world, imageStore);
 
-            // transform all miners in 7x7 radius to CPstudents
+            // transform all miners in 7x7 square to CPstudents
             for (int i = -3; i < 4; i++)
             {
                 for (int j = -3; j < 4; j++)
@@ -147,6 +146,7 @@ public final class VirtualWorld extends PApplet
                         scheduler.unscheduleAllEvents(e.get());
 
                         // add CPstudent
+                        // standard animation period seems to be 100ms
                         EntityCPStudent cpStudent = Factory.createCPStudent("cpstudent", p, imageStore.getImageList("cpstudent"), 500, 100);
                         world.addEntity(cpStudent);
                         cpStudent.scheduleActions(scheduler, world, imageStore);

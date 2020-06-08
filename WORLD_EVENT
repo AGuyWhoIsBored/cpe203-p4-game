@@ -1,6 +1,6 @@
 1. The event is triggered by a click of the mouse on any square within the map.
-2. When the mouse is clicked, the background of squares within a 3x3 radius of the mouse click have a random chance of turning into the all-familiar CP logo.
-   All miners within a 7x7 radius are transformed into Cal Poly students. The man himself, Jeffery Armstrong (the new entity type), also appears on the clicked square.
+2. When the mouse is clicked, the background of squares within a 3x3 square of the mouse click have a random chance of turning into the all-familiar CP logo.
+   All miners within a 7x7 square of the mouse click are transformed into Cal Poly students. The man himself, Jeffery Armstrong (the new entity type), also appears on the clicked square.
 3. Cal Poly Students are desperate for that good grade grade. As such, they will seek out and transform one blob into an A+ before returning to a blacksmith and despawning after a hard day of work.
 4. Jeffery desperately wants to create a better dining experience to increase the food rating on Niche. 
    To do this, he will spawn Vista Grande Dining Complexes at random locations within three squares of himself in each direction. 
